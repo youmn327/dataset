@@ -21,7 +21,7 @@
 ## model_architecture
 
 ![](./file/model_architecture.svg)
-임시용
+임시용(모델 아키텍쳐는 http://alexlenail.me/NN-SVG/LeNet.html 에서 생성해 사용했다.)
 
 ### reference
-http://alexlenail.me/NN-SVG/LeNet.html
++ http://alexlenail.me/NN-SVG/LeNet.html
