@@ -20,6 +20,8 @@
 
 ## model_architecture
 
+![]('./file/model_architecture.svg')
+임시용
 
 ### reference
 http://alexlenail.me/NN-SVG/LeNet.html
