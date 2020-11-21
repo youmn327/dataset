@@ -17,3 +17,9 @@
 + 노래 url 추가하기
 + 날씨 데이터 받아오기
 + 날씨 데이터와 현재 기분을 데이터 저장 
+
+## model_architecture
+
+
+### reference
+http://alexlenail.me/NN-SVG/LeNet.html
