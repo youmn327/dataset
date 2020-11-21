@@ -20,7 +20,7 @@
 
 ## model_architecture
 
-![]('./file/model_architecture.svg')
+![](./file/model_architecture.svg)
 임시용
 
 ### reference
