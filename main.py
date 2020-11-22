@@ -22,7 +22,7 @@ while True:
 
     if flag == True:
         mood = '우울'  # 얼굴인식해서 표정을 에측한 후에 mood에 저장한다. (현재는 우울만)
-        with open("data_file.json", 'r', encoding='UTF-8') as file:
+        with open("./file/data_file.json", 'r', encoding='UTF-8') as file:
             data = json.load(file)
 
         # 노래 틀어주기 (현재 우울밖에 없습니다.)
