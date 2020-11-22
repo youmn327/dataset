@@ -1,6 +1,6 @@
 import vlc
 import time
-
+import collections
 
 class Music_Player:
     def __init__(self, playlist, mood='우울'):
@@ -22,6 +22,7 @@ class Music_Player:
         event_manager = self.player.event_manager()
         event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.end_callback)
 
+
     def play_music(self):
         self.track_number += 1
         if self.track_number < self.maximum:
@@ -31,9 +32,7 @@ class Music_Player:
             self.play(music)
 
     def end_callback(self, event):
-        current_track_number = self.track_number
-        playlist_size = len(self.playlist)
-        if current_track_number <= playlist_size and self.track_number - 1 < self.maximum:
+        if self.track_number - 1 < self.maximum:
             self.play_music()
 
     def next_song(self):
@@ -43,6 +42,8 @@ class Music_Player:
         print('음악을 정지합니다.')
         self.player.stop()
 
+    def is_music_playing(self):
+        return self.player.is_playing()
 
 if __name__ == '__main__':
     tracks = {'우울' : ['','']}
