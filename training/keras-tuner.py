@@ -67,7 +67,7 @@ def build_model(hp):
 tuner = RandomSearch(
     build_model, # 위에 def build_model 만들겁니다.
     objective="val_accuracy",
-    max_trials=10,  # 몇번이나 랜덤하게 모델을 학습시킬지
+    max_trials=15,  # 몇번이나 랜덤하게 모델을 학습시킬지
     executions_per_trial=1  # 같은 모델을 몇번이나 학습시킬지
 )
 
