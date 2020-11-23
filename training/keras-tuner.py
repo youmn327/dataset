@@ -3,18 +3,40 @@ from keras.layers import Conv2D, MaxPooling2D, Dense, Flatten, Activation
 from keras.optimizers import Adam
 from kerastuner.tuners import RandomSearch
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import glob
+import cv2
+from keras.utils import np_utils
 
-dataset = None  # 사진
-labels = None  # 레이블
+path = './archive(2)/MMAFEDB/train/'
+dataset = []
+labels = []
 
-### 데이터 전처리 ###
-dataset = dataset.atype('float32') / 255.0
-dataset = np.asarray(dataset)
+names = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+
+for i, name in enumerate(names):
+    print("%d 중 %d 번쨰 로딩중" %(len(names), i+1))
+    for i in glob.glob(path+str(name)+'/*.jpg'):
+        img = i.split('/')
+        img = img[-1].split('\\')
+        image = cv2.imread(path+str(name)+'/'+img[-1])
+        image = image.astype('float32') / 255.0
+        dataset.append(image)
+        labels.append(name)
+
+e = LabelEncoder()
+e.fit(labels)
+labels = e.transform(labels)
+labels = np_utils.to_categorical(labels)
 
 ### train, test set 나누기 ###
-(X_train, y_train), (X_test, y_test) = train_test_split(dataset, labels, test_size=0.2, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(dataset, labels, test_size=0.2, random_state=1)
+
+
+### 데이터 전처리 ###
+X_train = np.asarray(X_train)
+X_test = np.asarray(X_test)
 
 
 ### Sequential 방식으로 architecture 만들기 ### min_valu, max_value, step 은 알맞게 고르시면 됩니다.
@@ -32,11 +54,11 @@ def build_model(hp):
 
     model.add(Flatten())
 
-    model.add(Dense(10))
+    model.add(Dense(7))
     model.add(Activation("softmax"))
 
     model.compile(optimizer=Adam(learning_rate=hp.Choice('learning_rate', values=[1e-2, 1e-3, 1e-4])), # learning_rate 를 values 안에 있는 것중 랜덤하게 고른다.
-                  loss="sparse_categorical_crossentropy",
+                  loss="categorical_crossentropy",
                   metrics=["accuracy"])
 
     return model
@@ -51,7 +73,7 @@ tuner = RandomSearch(
 
 tuner.search(x=X_train,
              y=y_train,
-             epochs=5,
+             epochs=20,
              batch_size=64,
              validation_data=(X_test, y_test))
 
@@ -65,5 +87,6 @@ print("The hyperparameter search is complete. The optimal number of units in the
   best_hps.get('n_layers'))) #
 
 model = tuner.hypermodel.build(best_hps) # 위에서 bext_hps 에 저장한 높은 정확성이 있는 모델을 model에 저장한다.
+model.save('save.h5')
 
 model.fit(X_train, y_train, batch_size=64, epochs=5, validation_data = (X_test, y_test))
