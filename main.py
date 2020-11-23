@@ -1,22 +1,33 @@
-from face_detection import face_detect
-from music_player import Music_Player
 import json
 import cv2
 import numpy
+import time
+import csv
 # from keras.models import load_model
+
+#############################################
+from face_detection import face_detect
+from music_player import Music_Player
+from weather import Weather_Api
+#############################################
 
 # model = load_model('저장한 트레인된 모델 경로')
 # mood = model.predict('img')
 
-face = face_detect("./file/haarcascade_frontalface_alt.xml")  # haarcascade_frontalface_alt 파일 경로
+FACE = face_detect("./file/haarcascade_frontalface_alt.xml")  # haarcascade_frontalface_alt 파일 경로
+WTH = Weather_Api()
+
+file = open('exp_weather', 'w', encoding='UTF-8')
+wr = csv.writer(file)
 
 cap = cv2.VideoCapture("./file/video1.mp4") # 비디오 경로
+
 
 while True:
     success, img = cap.read()
     if not success:
         break
-    faces, flag = face.detect_face(img)
+    faces, flag = FACE.detect_face(img)
     for person in faces:
         pass
 
@@ -24,6 +35,10 @@ while True:
         mood = '우울'  # 얼굴인식해서 표정을 에측한 후에 mood에 저장한다. (현재는 우울만)
         with open("./file/data_file.json", 'r', encoding='UTF-8') as file:
             data = json.load(file)
+
+        if abs(FACE.base_time - FACE.current_time) % 60 == 0:
+            current_weather = WTH.get_current_weather()
+            wr.writerow([mood, current_weather])
 
         # 노래 틀어주기 (현재 우울밖에 없습니다.)
         if mood in data['tracks']:
@@ -43,4 +58,3 @@ while True:
                             break
                         player.stop_music()
                         break
-
