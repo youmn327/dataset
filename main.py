@@ -9,21 +9,18 @@ from keras.models import load_model
 from face_detection import face_detect
 from music_player import Music_Player
 from weather import Weather_Api
+
 #############################################
 
-model = load_model('save_model.h5')
+model = load_model('save_model1.h5')
 
 FACE = face_detect("./file/haarcascade_frontalface_alt.xml")  # haarcascade_frontalface_alt 파일 경로
 WTH = Weather_Api()
 
-file = open('exp_weather.csv', 'w', encoding='UTF-8')
-wr = csv.writer(file)
-
 face_expression = ['화남', '역겨움', '무서움', '행복', '우중충/중립?', '우울', '놀람']
 face_expression_cnt = defaultdict(int)
 
-cap = cv2.VideoCapture("./file/video.mp4") # 비디오 경로
-
+cap = cv2.VideoCapture("./file/video.mp4")  # 비디오 경로
 
 while True:
     success, img = cap.read()
@@ -45,11 +42,15 @@ while True:
         with open("./file/data_file.json", 'r', encoding='UTF-8') as file:
             data = json.load(file)
 
-        if abs(FACE.base_time - FACE.current_time) % 30 == 0:
-            current_weather = WTH.get_current_weather()
-            wr.writerow([mood, current_weather])
+        file = open('exp_weather.csv', 'a', encoding='euc_kr', newline='')
+        wr = csv.writer(file)
+        current_weather = WTH.get_current_weather()
+        current_weather = current_weather.split(' ')[-1]
+        wr.writerow(['날씨', '표정'])
+        wr.writerow([current_weather])
+        file.close()
 
-        choice = input('현재 기분은 %s 입니다. %s , %s, 종료 중 하나를 고르세요. : ' %(mood, '노래듣기', '기분전환 추천받기'))
+        choice = input('현재 기분은 %s 입니다. %s , %s, 현재날씨, 종료 중 하나를 고르세요. : ' % (mood, '노래듣기', '기분전환 추천받기'))
 
         if choice == '노래듣기':
             # 노래 틀어주기 (현재 우울밖에 없습니다.)
@@ -75,5 +76,7 @@ while True:
                 print("현재 기분 %s 에는 아래 내용을 할 것을 추천합니다." % mood)
                 for do in data['todo'][mood]:
                     print(do)
+        elif choice == '현재날씨':
+            print("현재 날씨는 %s 입니다." % current_weather)
 
         flag = False
