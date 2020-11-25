@@ -53,7 +53,7 @@ while True:
         choice = input('현재 기분은 %s 입니다. %s , %s, 현재날씨, 종료 중 하나를 고르세요. : ' % (mood, '노래듣기', '기분전환 추천받기'))
 
         if choice == '노래듣기':
-            # 노래 틀어주기 (현재 우울밖에 없습니다.)
+            # 노래 틀어주기 (모두 동일 음악)
             if mood in data['tracks']:
                 check = input('음악을 듣겠습니까? (예/아니오) : ')
                 if check == '예':
