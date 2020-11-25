@@ -12,7 +12,7 @@ from weather import Weather_Api
 
 #############################################
 
-model = load_model('save_model1.h5')
+model = load_model('./file/save_model1.h5')
 
 FACE = face_detect("./file/haarcascade_frontalface_alt.xml")  # haarcascade_frontalface_alt 파일 경로
 WTH = Weather_Api()
