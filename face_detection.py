@@ -8,12 +8,10 @@ class face_detect:
         self.current_time = None
         self.cascade = cv2.CascadeClassifier(path)
 
-    ###### 이미지 사이즈 줄이기 ######
     def extract_face(self, img, x, y, w, h):
         img = img[y:y + h, x:x + w, :] # x,y,w,h를 이용해서 얼굴만 나온곳만 오려낸다.
         img = cv2.resize(img, (48,48))
         return img
-    ################################
 
     # cascade 파일을 읽고 얼굴인식해 좌표값이 있는 리스트를 반환
     def load_cascade_file_n_coordinate(self,gray_img):
@@ -26,7 +24,7 @@ class face_detect:
         people = []
         gray_img = cv2.cvtColor(image_file, cv2.COLOR_BGR2GRAY) # 이미지를 회색으로 저장
         face_list = self.load_cascade_file_n_coordinate(gray_img) # face_list 에 얼굴 인식된것마다 좌표값 리스트
-        if abs(self.base_time - self.current_time) % 5 == 0 and abs(self.base_time - self.current_time) != 0:
+        if abs(self.base_time - self.current_time) % 10 == 0 and abs(self.base_time - self.current_time) != 0:
             flag = True
         if len(face_list) > 0:
             for face in face_list: # 인식된 얼굴 하나하나 당 죄표값을 알기위해 for문을 돌려준다.
