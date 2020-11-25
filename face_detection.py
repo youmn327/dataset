@@ -29,9 +29,10 @@ class face_detect:
         if len(face_list) > 0:
             for face in face_list: # 인식된 얼굴 하나하나 당 죄표값을 알기위해 for문을 돌려준다.
                 x, y, w, h = face # 좌표값
+                face_img = self.extract_face(image_file,x,y,w,h) # 좌표값이랑 이미지 파일을 넣고 이미지에서 얼굴만 오려내 face_img에 저장한다.
+                cv2.rectangle(image_file, (x, y), (x + w, y + h), (0, 255, 0), 3)
                 cv2.imshow('img',image_file)
                 cv2.waitKey(1)
-                face_img = self.extract_face(image_file,x,y,w,h) # 좌표값이랑 이미지 파일을 넣고 이미지에서 얼굴만 오려내 face_img에 저장한다.
                 people.append(face_img)
 
         else:
