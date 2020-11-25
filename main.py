@@ -17,7 +17,7 @@ model = load_model('./file/save_model1.h5')
 FACE = face_detect("./file/haarcascade_frontalface_alt.xml")  # haarcascade_frontalface_alt 파일 경로
 WTH = Weather_Api()
 
-face_expression = ['화남', '역겨움', '무서움', '행복', '우중충/중립?', '우울', '놀람']
+face_expression = ['화남', '역겨움', '무서움', '행복', '무표정', '우울', '놀람']
 face_expression_cnt = defaultdict(int)
 
 cap = cv2.VideoCapture("./file/video.mp4")  # 비디오 경로
