@@ -35,7 +35,7 @@ class face_detect:
                 people.append(face_img)
 
         else:
-            print("no face") # face_list에 반환된 좌표값이 없으면 no face를 출력
+            print("얼굴이 확인되지 않습니다.") # face_list에 반환된 좌표값이 없으면 출력
 
         return people, flag
 
