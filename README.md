@@ -3,7 +3,7 @@ Recommend some activities according to facial expression. (ex. 'sad' expression:
 
 ## how it works
 + detect the face on the pictures or videos in real time by using haarcascade.
-+ predict a facial expression with only face area on the pic and pre-trained model.
++ use pre-trained model to predict a facial expression with only face area on the pic.
 + recommend some activities every minutes(It depends on the setting).
 + there are three choices
   * play music
