@@ -3,7 +3,7 @@ import json
 
 
 class Weather_Api:
-    def __init__(self, api="230a8f3c0468b38e1a667b3011ff0b85"):
+    def __init__(self, api=""):
         # API 키를 지정합니다. 자신의 키로 변경해서 사용해주세요. --- (※1)
         self.apikey = api # https://openweathermap.org/ api얻기
         # 날씨를 확인할 도시 지정하기 --- (※2)
@@ -22,13 +22,3 @@ class Weather_Api:
         data = json.loads(r.text)
         # 결과 출력하기 --- (※8)
         return data["weather"][0]["description"]
-
-        # print("+ 도시 =", data["name"])
-        # print("| 날씨 =", data["weather"][0]["description"])
-        # print("| 최저 기온 =", k2c(data["main"]["temp_min"]))
-        # print("| 최고 기온 =", k2c(data["main"]["temp_max"]))
-        # print("| 습도 =", data["main"]["humidity"])
-        # print("| 기압 =", data["main"]["pressure"])
-        # print("| 풍향 =", data["wind"]["deg"])
-        # print("| 풍속 =", data["wind"]["speed"])
-        # print("")
